@@ -1,0 +1,34 @@
+# Dataset and large files
+dataset/
+saved_models/
+report_charts/
+unseen_demo_live/
+unseen_demo_recording/
+
+# Environment and cache
+.conda/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter and notebook files
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS files
+Thumbs.db
+.DS_Store
