@@ -15,6 +15,40 @@ All models can detect pneumonia from chest X-ray images with high accuracy.
 
 ---
 
+## 📖 About This Project
+
+### The Problem
+Pneumonia is a serious respiratory infection that affects millions worldwide. Early and accurate detection is critical for patient survival and treatment outcomes. However:
+
+- ❌ Manual chest X-ray analysis by doctors is time-consuming
+- ❌ Diagnosis depends on radiologist experience and availability
+- ❌ In developing countries, X-ray experts are limited
+- ❌ Misdiagnosis can delay critical treatment
+
+### The Solution
+This project uses **deep learning AI** to automatically detect pneumonia from chest X-ray images with high accuracy (>95%). The models can:
+
+- 🔍 Analyze X-rays in seconds (not hours)
+- 👨‍⚕️ Assist radiologists in making better decisions
+- 🌍 Provide diagnosis support in remote areas
+- 📊 Reduce human error and improve consistency
+
+### Why This Matters
+✨ **Healthcare Impact:** Faster diagnosis = faster treatment = better patient outcomes  
+✨ **Educational Value:** Learn state-of-the-art deep learning techniques  
+✨ **Real-World Data:** Uses actual chest X-ray images from medical research  
+✨ **Practical Models:** Code you can use and customize  
+
+### Dataset Used
+This project uses the **Chest X-Ray Images dataset** from Kaggle:
+- 5,856 total chest X-ray images
+- Binary classification: Normal vs Pneumonia
+- Real medical images from pediatric patients
+- **Source:** [Paul Mooney's Kaggle dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia)
+- **Original Research:** Kermany et al., "Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning" (Cell, 2018)
+
+---
+
 ## 🎯 What You Can Do
 
 ✅ Train multiple models from scratch  
