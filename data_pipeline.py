@@ -2,11 +2,18 @@
 Data loading and preprocessing pipeline
 Handles image augmentation, batching, and class weight calculation
 """
-import os
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.utils.class_weight import compute_class_weight
-from config import TRAIN_DIR, VAL_DIR, TEST_DIR, IMG_SIZE, BATCH_SIZE, SEED
+from config import (
+    BATCH_SIZE,
+    IMG_SIZE,
+    SEED,
+    TEST_DIR,
+    TRAIN_DIR,
+    VALIDATION_SPLIT,
+    validate_dataset_layout,
+)
 
 
 def create_data_generators():
@@ -14,7 +21,8 @@ def create_data_generators():
     Create data generators for training, validation, and testing
     Training data includes augmentation, test data does not
     """
-    
+    validate_dataset_layout()
+
     # Training data generator with augmentation
     train_datagen = ImageDataGenerator(
         rescale=1.0 / 255,
@@ -25,7 +33,7 @@ def create_data_generators():
         height_shift_range=0.1,
         shear_range=0.1,
         fill_mode="nearest",
-        validation_split=0.2
+        validation_split=VALIDATION_SPLIT,
     )
     
     # Test data only gets rescaled, no augmentation
@@ -33,7 +41,7 @@ def create_data_generators():
     
     # 80% of train folder for actual training
     train_gen = train_datagen.flow_from_directory(
-        TRAIN_DIR,
+        str(TRAIN_DIR),
         target_size=IMG_SIZE,
         batch_size=BATCH_SIZE,
         class_mode="binary",
@@ -44,7 +52,7 @@ def create_data_generators():
     
     # 20% of train folder for validation during training
     val_gen = train_datagen.flow_from_directory(
-        TRAIN_DIR,
+        str(TRAIN_DIR),
         target_size=IMG_SIZE,
         batch_size=BATCH_SIZE,
         class_mode="binary",
@@ -55,7 +63,7 @@ def create_data_generators():
     
     # Completely separate test set
     test_gen = test_datagen.flow_from_directory(
-        TEST_DIR,
+        str(TEST_DIR),
         target_size=IMG_SIZE,
         batch_size=BATCH_SIZE,
         class_mode="binary",
@@ -69,7 +77,7 @@ def create_data_generators():
 def compute_class_weights(train_gen):
     """
     Compute class weights to handle imbalance
-    This penalizes the model more for missing normal cases
+    Return balanced class weights based on the generated training split.
     """
     labels = train_gen.classes
     class_weights_array = compute_class_weight(

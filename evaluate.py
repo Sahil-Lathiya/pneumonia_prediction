@@ -9,7 +9,6 @@ from sklearn.metrics import (
     confusion_matrix, roc_curve, auc, accuracy_score, 
     precision_score, recall_score
 )
-from tensorflow.keras.models import load_model
 
 
 def get_predictions(model, test_gen, threshold=0.5):
@@ -24,8 +23,8 @@ def get_predictions(model, test_gen, threshold=0.5):
 def calculate_metrics(true_labels, preds):
     """Calculate accuracy, precision, recall"""
     acc = accuracy_score(true_labels, preds) * 100
-    prec = precision_score(true_labels, preds) * 100
-    rec = recall_score(true_labels, preds) * 100
+    prec = precision_score(true_labels, preds, zero_division=0) * 100
+    rec = recall_score(true_labels, preds, zero_division=0) * 100
     return acc, prec, rec
 
 

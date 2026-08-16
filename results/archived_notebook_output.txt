@@ -1,0 +1,12 @@
+Source: Pnuemonia_detection_project.ipynb, archived Cell 8 stream output
+Captured before notebook outputs were cleared for portability and reviewability.
+
+Test images loaded: 624
+
+Final results summary:
+
+  ResNet50         Accuracy: 78.04%   Precision: 74.37%   Recall: 98.97%
+  MobileNetV2      Accuracy: 90.54%   Precision: 89.31%   Recall: 96.41%  <-- recommended
+  Custom CNN       Accuracy: 83.49%   Precision: 90.65%   Recall: 82.05%
+
+Evidence status: archived output from one local run; not independently reproduced.
