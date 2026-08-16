@@ -8,17 +8,18 @@ saved_models/
 
 # Generated charts and outputs
 report_charts/
+*.keras
+*.h5
 
 # Python cache and environment
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+.pytest_cache/
+*.py[cod]
 .Python
 env/
 venv/
 ENV/
-.venv
+.venv/
 .conda/
 *.egg-info/
 dist/

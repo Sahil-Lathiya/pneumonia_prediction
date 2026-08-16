@@ -1,34 +1,51 @@
-"""
-Configuration and paths for Pneumonia Detection Project
-"""
+"""Portable configuration for the pneumonia classification experiment."""
+
+from __future__ import annotations
+
 import os
+from pathlib import Path
 
-# Base directories
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATASET_DIR = os.path.join(BASE_DIR, "dataset", "chest_xray")
-MODELS_DIR = os.path.join(BASE_DIR, "saved_models")
-CHARTS_DIR = os.path.join(BASE_DIR, "report_charts")
 
-# Dataset paths
-TRAIN_DIR = os.path.join(DATASET_DIR, "train")
-VAL_DIR = os.path.join(DATASET_DIR, "val")
-TEST_DIR = os.path.join(DATASET_DIR, "test")
+REPO_DIR = Path(__file__).resolve().parent
+DATASET_DIR = Path(
+    os.environ.get("PNEUMONIA_DATASET_DIR", REPO_DIR / "dataset" / "chest_xray")
+).expanduser().resolve()
+MODELS_DIR = REPO_DIR / "saved_models"
+CHARTS_DIR = REPO_DIR / "report_charts"
 
-# Model save paths
-RESNET_PATH = os.path.join(MODELS_DIR, "best_resnet50.keras")
-MOBILENET_PATH = os.path.join(MODELS_DIR, "best_mobilenetv2.keras")
-CNN_PATH = os.path.join(MODELS_DIR, "best_custom_cnn.keras")
+TRAIN_DIR = DATASET_DIR / "train"
+VAL_DIR = DATASET_DIR / "val"
+TEST_DIR = DATASET_DIR / "test"
 
-# Training parameters
+RESNET_PATH = MODELS_DIR / "best_resnet50.keras"
+MOBILENET_PATH = MODELS_DIR / "best_mobilenetv2.keras"
+CNN_PATH = MODELS_DIR / "best_custom_cnn.keras"
+
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
 SEED = 42
+VALIDATION_SPLIT = 0.2
 
-# Create directories if they don't exist
-os.makedirs(MODELS_DIR, exist_ok=True)
-os.makedirs(CHARTS_DIR, exist_ok=True)
 
-print("Configuration loaded successfully")
-print(f"Dataset: {DATASET_DIR}")
-print(f"Models: {MODELS_DIR}")
-print(f"Charts: {CHARTS_DIR}")
+def ensure_output_dirs() -> None:
+    """Create local model and chart directories when a run begins."""
+
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    CHARTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def validate_dataset_layout() -> None:
+    """Fail early when required dataset folders are missing."""
+
+    required = [
+        split / label
+        for split in (TRAIN_DIR, VAL_DIR, TEST_DIR)
+        for label in ("NORMAL", "PNEUMONIA")
+    ]
+    missing = [str(path) for path in required if not path.is_dir()]
+    if missing:
+        joined = "\n- ".join(missing)
+        raise FileNotFoundError(
+            "Dataset layout is incomplete. Missing:\n- " + joined
+            + "\nSet PNEUMONIA_DATASET_DIR if the dataset is elsewhere."
+        )
